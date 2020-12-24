@@ -1,1 +1,1 @@
-# um-phd-thesisTemplate
+UM PhD Thesis Template
