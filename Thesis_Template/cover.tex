@@ -1,0 +1,278 @@
+% Copyright 2020 André Santos
+%
+% Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+%
+% The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+% VERSION: 0.1
+
+\documentclass{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,portuguese]{babel}
+\usepackage{geometry}
+\usepackage[dvipsnames,rgb,table]{xcolor}
+\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage{ifpdf}
+\usepackage{ifxetex}
+\usepackage{ifluatex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Fonts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ifthenelse%
+{\boolean{xetex}\OR\boolean{luatex}}
+{
+    \usepackage{fontspec}
+    \setmainfont[
+        Extension = .ttf ,
+        UprightFont = *-regular ,
+        BoldFont = *-bold ,
+        AutoFakeSlant = 0.3,
+     ]{newsgott}
+}
+{
+    \usepackage{helvet}
+    \renewcommand{\familydefault}{\sfdefault}
+    \renewcommand{\seriesdefault}{c}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Cover Dimensions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\geometry{
+paperwidth=433mm,   % 210mm + 13mm + 210mm
+paperheight=297mm,
+top=0cm,
+bottom=0cm,
+left=0cm,
+right=0cm
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Useful Definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\parindent}{0pt}
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Color Definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{um}{rgb}{0.686,0.126,0.106}
+\definecolor{eng}{cmyk}{0.14,0.71,1,0.03}
+\definecolor{grey}{rgb}{0.6,0.6,0.6}
+\definecolor{pantone1807}{rgb}{0.643,0.204,0.227}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Helpful Macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\myear{\ifcase\month\or
+ January\or February\or March\or April\or May\or June\or
+ July\or August\or September\or October\or November\or December\fi
+ \space\number\year}
+
+\newcommand{\printmapilogos}{%
+    \ifthenelse%
+    {\mapi=1}%
+    {%
+        {\fontsize{14}{16.8}\selectfont \color{white}
+            % Tese de Doutoramento\par
+            \textbf{\printphddegree}\par
+            \textbf{das Universidades do Minho, de Aveiro e do Porto}\par
+        }
+        \vskip 16.8pt
+        \begin{minipage}{10cm}
+            \raisebox{-0.5\height}{\includegraphics[width=30mm,keepaspectratio=true]{images/UA.pdf}}
+            \hskip 7mm
+            \raisebox{-0.6\height}{\includegraphics[width=25mm,keepaspectratio=true]{images/UM.pdf}}
+            \hskip 5mm
+            \raisebox{-0.5\height}{\includegraphics[width=30mm,keepaspectratio=true]{images/UP.pdf}}
+        \end{minipage}%
+    }{\relax}%
+}
+
+\makeatletter
+\def\maxwidth#1{\ifdim\Gin@nat@width>#1 #1\else\Gin@nat@width\fi}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Back Cover
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\backcover}{%
+\begin{minipage}[t][287mm]{210mm}%
+    \vspace{0pt}
+    \color{white}
+    \vfill
+    \centering
+    {\fontsize{10}{12}\selectfont \color{white} \printfunding\par}
+    \printfundinglogos
+\end{minipage}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Front Cover
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\frontcover}{%
+\begin{minipage}[t][287mm]{79mm}%
+    \vspace{0pt}
+    \mbox{}
+\end{minipage}%
+\begin{minipage}[t]{111mm}%
+    \vspace{0pt}
+    \begin{minipage}[t][90mm]{111mm}%   top box: University logo
+        % 277px 70.42mm logo
+        % 497px 126.3mm height
+        % 0.3692 scale
+        \printschool\\
+        {\fontsize{14}{16.8}\selectfont \color{white}
+            \printdepartment\par
+        }
+    \end{minipage}\\[-1pt]%
+    \begin{minipage}[t][90mm]{111mm}%   middle box: Author and Thesis title
+        {\fontsize{17}{20.4}\selectfont \color{white}
+            \raggedright
+            \printauthor\par
+            \vspace{\baselineskip}
+            \textbf{\printtitle}\par
+        }
+    \end{minipage}\\[-1pt]%
+    \begin{minipage}[t][107mm]{111mm}%  bottom box: partner Universities and date
+        \printmapilogos
+        \vfill
+        {\fontsize{10}{12}\selectfont \color{white} \printdate\par}
+    \end{minipage}%
+\end{minipage}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Cover Spine
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\coverspine}{%
+\begin{minipage}[t][287mm]{13mm}%
+    \color{white}
+    \vspace{0pt}
+    \begin{minipage}[t][90mm]{13mm}%    top box: University logo
+        \printschoolv
+    \end{minipage}\\%
+    {\centering \fontsize{12}{14.4}\selectfont
+        \rotatebox[origin=c]{90}{\parbox[c][13mm]{90mm}{\raggedright \textbf{\printtitle}}}\par}
+    \vspace{3mm}
+    {\centering \fontsize{12}{14.4}\selectfont
+        \rotatebox[origin=c]{90}{\printauthorshort}\par}
+    \vfill
+    {\centering \fontsize{10}{12}\selectfont
+        \rotatebox[origin=b]{90}{UMinho | \number\year}\par}
+\end{minipage}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Variables - EDIT THESE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% set to 1 if the PhD programme is MAP; leave as 0 for UM courses
+\gdef\mapi{0}
+
+\makeatletter
+% replace with a specific month/date if needed
+\gdef\@date{\myear}
+
+\gdef\@author{Your Full Name Here}
+
+% short name for cover spine if needed
+\gdef\@authorshort{\@author}
+
+% longer titles need adjustment for the cover spine
+\gdef\@title{Thesis Title Here}
+
+% choose one of the following
+% EA    - Escola de Arquitetura
+% EC    - Escola de Ciências
+% ED    - Escola de Direito
+% EE    - Escola de Engenharia
+% EEG   - Escola de Economia e Gestão
+% EM    - Escola de Medicina
+% EP    - Escola de Psicologia
+% ESE   - Escola Superior de Enfermagem
+% ICS   - Instituto de Ciências Sociais
+% IE    - Instituto de Educação
+% IIBBB - Instituto de Investigação em Biomateriais, Biodegradáveis e Biomiméticos
+% ILCH  - Instituto de Letras e Ciências Humanas
+\gdef\@school{EE}
+
+% [optional] leave empty if not desired
+\gdef\@department{Departamento de Informática}
+
+% normal PhD courses do not require this info; MAP courses do
+\gdef\@phddegree{Programa de Doutoramento em Informática}
+\gdef\@phdspec{Área de Especialização}
+
+% [optional] funding acknowledgement; leave empty if n/a
+\gdef\@funding{}
+
+% [optional] path to image with logos (e.g., FCT, Erasmus, etc.)
+\gdef\@fundinglogos{}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% More Utility Macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\printdate{\@date}
+\def\printauthor{\@author}
+\def\printauthorshort{\@authorshort}
+\def\printtitle{\@title}
+%\def\printschool{\includegraphics[scale=0.36959,keepaspectratio=true]{images/UM-\@school.pdf}}
+\def\printschool{\includegraphics[scale=0.36959,keepaspectratio=true]{figures/img/DI-UM.png}}
+%\def\printschoolv{\includegraphics[width=13mm,keepaspectratio=true]{images/v-UM-\@school.pdf}}
+\def\printschoolv{\includegraphics[width=13mm,keepaspectratio=true]{figures/img/v-UM-EE.pdf}}
+\def\printdepartment{\@department}
+\def\printphddegree{\@phddegree}
+\def\printphdspec{\@phdspec}
+\def\printfunding{\@funding}
+
+\newcommand{\printfundinglogos}{%
+    \ifthenelse%
+    {\equal{\@fundinglogos}{}}%
+    {\mbox{}}%
+    {\vskip 16.8pt \includegraphics[width=\maxwidth{170mm}]{\@fundinglogos}}%
+}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\setlength{\topskip}{0pt}
+\setlength\fboxsep{0pt}
+
+\thispagestyle{empty}
+\pagecolor{grey}
+
+\noindent
+\backcover%
+\coverspine%
+\frontcover%
+\clearpage
+
+\thispagestyle{empty}
+\pagecolor{pantone1807}
+\mbox{}
+
+\end{document}

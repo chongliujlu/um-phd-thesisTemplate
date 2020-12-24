@@ -1,0 +1,125 @@
+% silence warning
+% Package 'classicthesis' together with (scrbook) will show a set of warning messages and currently not fixable . The command below will filter all warnings from package "titlesec" beginnging with "Non standard sectioning command"
+\RequirePackage{silence}
+\WarningFilter{titlesec}{Non standard sectioning command}
+\documentclass[
+% Replace twoside with oneside if you are printing your thesis on a single side of the paper, or for viewing on screen.
+  oneside,
+  %twoside,
+  11pt, a4paper,
+  footinclude=true,
+  headinclude=true,
+  cleardoublepage=empty
+]{scrbook}
+\usepackage[usenames,dvipsnames, table]{xcolor}
+\usepackage[scaled]{beramono}
+\usepackage[final]{pdfpages}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{dissertation}
+\usepackage[T1]{fontenc}
+\usepackage{fancyvrb}
+\usepackage{textcomp}
+%% Aesthetic spacing redefines that look nicer to me than the defaults.
+\setlength{\cftbeforechapskip}{2ex}
+\setlength{\cftbeforesecskip}{0.5ex}
+%% Use Helvetica-Narrow Bold for Chapter entries
+\renewcommand{\cftpartfont}{%
+  \fontsize{12}{14}\usefont{OT1}{phv}{bc}{n}\selectfont
+}
+\renewcommand{\cftchapfont}{%
+  \fontsize{11}{13}\usefont{OT1}{phv}{bc}{n}\selectfont
+}
+\renewcommand{\cftsecfont}{%
+  \fontsize{10}{11}\usefont{OT1}{phv}{}{n}\selectfont
+}
+\renewcommand{\cftsubsecfont}{%
+  \fontsize{9}{10}\usefont{OT1}{phv}{}{n}\selectfont
+}
+\renewcommand{\cftfigfont}{%
+  \fontsize{9}{10}\usefont{OT1}{phv}{}{n}\selectfont
+}
+\renewcommand{\cfttabfont}{%
+  \fontsize{9}{10}\usefont{OT1}{phv}{}{n}\selectfont
+}
+\usepackage[all]{xy}
+\makeatletter
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+\makeatother
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black
+}
+
+%------------------------------------------------------------------------------------
+% Title
+%------------------------------------------------------------------------------------
+\titleA{Your Thesis Title}
+%\titleB{Second line in title (if any)}
+%\titleC{Third  line in title (if any)}
+\author{Your Full Name Goes Here}
+\supervisor{Your Supervisor's Name Goes Here}
+\cosupervisor{Your coo-supervisor's Name Goes Here}
+\date{\myear} % change to text if date is not today
+%\makeglossaries  %  either use this ...
+\makeindex	% ... or this
+
+%------------------------------------------------------------------------------------
+\begin{document}\fontfamily{phv}\fontseries{mc}\selectfont
+%Cover page
+\includepdf[pages={1,2},fitpaper]{cover.pdf} 
+%\thispagestyle{empty}
+\input{title}
+\cleardoublepage
+\pagenumbering{alph}
+\setcounter{page}{0}
+	
+%------------------------------------------------------------------------------------
+% Add Copyright and Terms of Use for Third Party Work, License, Acknowledgements, Statement of Integrity, Abstract,Resumo
+\include{appendix/acknowledgements}
+
+%------------------------------------------------------------------------------------	
+\pagenumbering{roman}
+\setcounter{page}{3}
+%pagestyle{fancy}   % -------- removed
+	
+% Document
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Contents}
+\tableofcontents
+\cleardoublepage
+\listoffigures
+\cleardoublepage
+\listoftables
+\cleardoublepage
+\lstlistoflistings
+% Add list of acronyms
+\cleardoublepage
+\pagenumbering{arabic}
+\setcounter{page}{3}
+
+
+%------------------------------------------------------------------------------------
+%   Chapters 
+%------------------------------------------------------------------------------------
+\include{chapters/intro}
+%------------------------------------------------------------------------------------
+%\bookmarksetup{startatroot} % Ends last part.
+\addtocontents{toc}{\bigskip} % Making the table of contents look good.
+\cleardoublepage
+\bibliography{refs}
+%----------------- Index of terms (needs  makeindex) --------------------------%
+%\printindex
+%------------------------------------------------------------------------------%
+% \appendix
+% \renewcommand\chaptername{Appendix}
+% Add appendix chapters
+\begin{backcover}
+\thispagestyle{empty} \pagecolor{white} \textcolor{black} {\fontfamily{phv}\fontseries{mc}\selectfont ~\vfill
+\noindent
+NB: place here information about funding, FCT project, etc in which the work is framed. Leave empty otherwise.
+\vfill ~}
+\end{backcover}
+\end{document}
+
